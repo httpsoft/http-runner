@@ -25,6 +25,7 @@
         "psr/http-server-middleware": "^1.0"
     },
     "require-dev": {
+        "httpsoft/http-message": "^1.0",
         "phpunit/phpunit": "^9.3",
         "squizlabs/php_codesniffer": "^3.5",
         "vimeo/psalm": "^3.14"
