@@ -43,9 +43,9 @@ interface MiddlewarePipelineInterface extends MiddlewareInterface, RequestHandle
      * // Available: `https://example.com/api` and `https://example.com/api/any`:
      * $pipeline->pipe($apiMiddleware, '/api');
      *
-     * // Available: `https://example.com/api/admin` and `https://example.com/api/admin/any`
+     * // Available: `https://example.com/api/admin` and `https://example.com/api/admin/any`:
      * $pipeline->pipe($apiAdminMiddleware, '/api/admin');
-     * // But not available: `https://example.com/api` and `https://example.com/api/any`
+     * // but not available: `https://example.com/api` and `https://example.com/api/any`.
      * ```
      *
      * @param MiddlewareInterface $middleware
