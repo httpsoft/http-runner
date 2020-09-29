@@ -36,27 +36,26 @@ final class MiddlewareResolver implements MiddlewareResolverInterface
      *
      * The handler must be one of:
      *
-     * - a class name (string) or an object that implements `MiddlewareInterface` or `RequestHandlerInterface`;
+     * - a string (class name or identifier of a container definition) or an instance
+     * that implements `MiddlewareInterface` or `RequestHandlerInterface`;
      * - a callable without arguments that returns an instance of `ResponseInterface`;
      * - a callable matching signature of `MiddlewareInterface::process()`;
      * - an array of previously listed handlers.
      *
      * @throws InvalidMiddlewareResolverHandlerException if the handler is not valid.
-     * @psalm-suppress MixedAssignment
-     * @psalm-suppress MixedMethodCall
      */
     public function resolve($handler): MiddlewareInterface
     {
-        if (is_string($handler) && class_exists($handler)) {
-            $handler = $this->container ? $this->container->get($handler) : new $handler();
-        }
-
         if ($handler instanceof MiddlewareInterface) {
             return $handler;
         }
 
         if ($handler instanceof RequestHandlerInterface) {
             return $this->handler($handler);
+        }
+
+        if (is_string($handler)) {
+            return $this->string($handler);
         }
 
         if (is_callable($handler)) {
@@ -136,6 +135,46 @@ final class MiddlewareResolver implements MiddlewareResolverInterface
                 RequestHandlerInterface $handler
             ): ResponseInterface {
                 return $this->handler->handle($request);
+            }
+        };
+    }
+
+    /**
+     * @param string $handler
+     * @return MiddlewareInterface
+     * @throws InvalidMiddlewareResolverHandlerException if the handler is not valid.
+     * @psalm-suppress MixedAssignment
+     * @psalm-suppress MixedMethodCall
+     */
+    private function string(string $handler): MiddlewareInterface
+    {
+        return new class ($handler, $this->container) implements MiddlewareInterface {
+            private string $string;
+            private ?ContainerInterface $container;
+
+            public function __construct(string $string, ?ContainerInterface $container)
+            {
+                $this->string = $string;
+                $this->container = $container;
+            }
+
+            public function process(
+                ServerRequestInterface $request,
+                RequestHandlerInterface $handler
+            ): ResponseInterface {
+                if (class_exists($this->string) || ($this->container && $this->container->has($this->string))) {
+                    $instance = $this->container ? $this->container->get($this->string) : new $this->string();
+
+                    if ($instance instanceof MiddlewareInterface) {
+                        return $instance->process($request, $handler);
+                    }
+
+                    if ($instance instanceof RequestHandlerInterface) {
+                        return $instance->handle($request);
+                    }
+                }
+
+                throw InvalidMiddlewareResolverHandlerException::forStringNotConvertedToInstance($this->string);
             }
         };
     }

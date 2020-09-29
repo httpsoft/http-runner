@@ -156,18 +156,8 @@ class MiddlewareResolverTest extends TestCase
             'false' => [false],
             'integer' => [1],
             'float' => [1.1],
-            'string' => ['string'],
             'empty-array' => [[]],
-            'class-not-exist' => ['Class\Not\Exist'],
-            'class-not-middleware-request-handler' => [DummyHandler::class],
             'object-not-middleware-request-handler' => [new DummyHandler()],
-            'array-item-not-middleware-or-request-handle-classes' => [
-                [
-                    FirstMiddleware::class,
-                    DummyHandler::class,
-                    RequestHandler::class,
-                ],
-            ],
             'array-item-not-middleware-or-request-handle-objects' => [
                 [
                     new FirstMiddleware(),
@@ -186,6 +176,36 @@ class MiddlewareResolverTest extends TestCase
     {
         $this->expectException(InvalidMiddlewareResolverHandlerException::class);
         $this->resolver->resolve($handler);
+    }
+
+    /**
+     * @return array
+     */
+    public function invalidStringHandlerProvider(): array
+    {
+        return [
+            'string' => ['string'],
+            'class-not-exist' => ['Class\Not\Exist'],
+            'class-not-middleware-request-handler' => [DummyHandler::class],
+            'array-item-not-middleware-or-request-handle-classes' => [
+                [
+                    FirstMiddleware::class,
+                    DummyHandler::class,
+                    RequestHandler::class,
+                ],
+            ],
+        ];
+    }
+
+    /**
+     * @dataProvider invalidStringHandlerProvider
+     * @param mixed $handler
+     */
+    public function testResolveThrowExceptionForInvalidStringHandler($handler): void
+    {
+        $middleware = $this->resolver->resolve($handler);
+        $this->expectException(InvalidMiddlewareResolverHandlerException::class);
+        $middleware->process($this->request, $this->handler);
     }
 
     /**
@@ -241,15 +261,17 @@ class MiddlewareResolverTest extends TestCase
 
     public function testResolveClassNameHandlerWithDependenciesNotPassingContainerToConstructor(): void
     {
+        $middleware = $this->resolver->resolve(RequestHandlerAutoWiring::class);
         $this->expectException(ArgumentCountError::class);
-        $this->resolver->resolve(RequestHandlerAutoWiring::class);
+        $middleware->process($this->request, $this->handler);
     }
 
     public function testResolveClassNameHandlerWithDependenciesPassingContainerWithoutAutoWiringToConstructor(): void
     {
         $resolver = new MiddlewareResolver($this->createContainerWithoutAutoWiring());
+        $middleware = $resolver->resolve(RequestHandlerAutoWiring::class);
         $this->expectException(NotFoundExceptionInterface::class);
-        $resolver->resolve(RequestHandlerAutoWiring::class);
+        $middleware->process($this->request, $this->handler);
     }
 
     public function testResolveClassNameHandlerWithDependenciesPassingContainerWithAutoWiringToConstructor(): void
