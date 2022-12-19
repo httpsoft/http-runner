@@ -30,7 +30,7 @@
         "devanych/di-container": "^2.1",
         "httpsoft/http-message": "^1.0",
         "phpunit/phpunit": "^9.5",
-        "squizlabs/php_codesniffer": "^3.6",
+        "squizlabs/php_codesniffer": "^3.7",
         "vimeo/psalm": "^5.3"
     },
     "provide": {
