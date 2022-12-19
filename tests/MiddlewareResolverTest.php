@@ -291,7 +291,7 @@ class MiddlewareResolverTest extends TestCase
                 };
             }
 
-            public function has($id)
+            public function has($id): bool
             {
                 return array_key_exists($id, $this->dependencies);
             }
