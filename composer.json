@@ -27,7 +27,6 @@
         "psr/http-server-middleware": "^1.0"
     },
     "require-dev": {
-        "devanych/di-container": "^2.1",
         "httpsoft/http-message": "^1.0",
         "phpunit/phpunit": "^9.5",
         "squizlabs/php_codesniffer": "^3.7",
