@@ -1,5 +1,28 @@
 # HTTP Runner Change Log
 
+# 1.0.3 - 2022.12.20
+
+### Added
+
+- Nothing.
+
+### Changed
+
+- Updates the `psr/container` versions from `^1.0` to `^1.0|^2.0`.
+- Updates development dependencies and development configuration files.
+
+### Deprecated
+
+- Nothing.
+
+### Removed
+
+- Nothing.
+
+### Fixed
+
+-  Nothing.
+
 ## 1.0.2 - 2020.12.12
 
 ### Added
