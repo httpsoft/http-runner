@@ -5,6 +5,7 @@ declare(strict_types=1);
 namespace HttpSoft\Tests\Runner;
 
 use ArgumentCountError;
+use Devanych\Di\Container;
 use HttpSoft\Message\Response;
 use HttpSoft\Message\ServerRequest;
 use HttpSoft\Runner\Exception\InvalidMiddlewareResolverHandlerException;
@@ -271,6 +272,14 @@ class MiddlewareResolverTest extends TestCase
         $middleware = $resolver->resolve(RequestHandlerAutoWiring::class);
         $this->expectException(NotFoundExceptionInterface::class);
         $middleware->process($this->request, $this->handler);
+    }
+    
+    public function testResolveClassNameHandlerWithDependenciesPassingContainerWithAutoWiringToConstructor(): void
+    {
+        $resolver = new MiddlewareResolver(new Container());
+        $middleware = $resolver->resolve(RequestHandlerAutoWiring::class);
+        $this->assertInstanceOf(MiddlewareInterface::class, $middleware);
+        $this->assertInstanceOf(ResponseInterface::class, $middleware->process($this->request, $this->handler));
     }
 
     /**
