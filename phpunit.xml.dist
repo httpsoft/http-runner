@@ -20,7 +20,7 @@
     </php>
 
     <testsuites>
-        <testsuite name="HttpSoft Basis Test Suite">
+        <testsuite name="HttpSoft Runner Test Suite">
             <directory>tests</directory>
         </testsuite>
     </testsuites>
