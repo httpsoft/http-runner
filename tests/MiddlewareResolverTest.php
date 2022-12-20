@@ -273,7 +273,7 @@ class MiddlewareResolverTest extends TestCase
         $this->expectException(NotFoundExceptionInterface::class);
         $middleware->process($this->request, $this->handler);
     }
-    
+
     public function testResolveClassNameHandlerWithDependenciesPassingContainerWithAutoWiringToConstructor(): void
     {
         $resolver = new MiddlewareResolver(new Container());
