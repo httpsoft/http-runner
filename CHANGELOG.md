@@ -1,5 +1,11 @@
 # HTTP Runner Change Log
 
+## 1.1.0 - 2023.05.05
+
+### Changed
+
+- [#3](https://github.com/httpsoft/http-runner/pull/3) Allows `psr/http-message` package version 2.
+
 # 1.0.3 - 2022.12.20
 
 ### Added
