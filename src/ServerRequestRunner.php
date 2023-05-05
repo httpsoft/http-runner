@@ -42,7 +42,7 @@ final class ServerRequestRunner
     /**
      * @param ServerRequestInterface $request
      * @param RequestHandlerInterface|null $defaultHandler
-     * @psalm-suppress RedundantCastGivenDocblockType
+     * @psalm-suppress RedundantCast
      */
     public function run(ServerRequestInterface $request, RequestHandlerInterface $defaultHandler = null): void
     {
