@@ -24,7 +24,7 @@ final class MiddlewarePipeline implements MiddlewarePipelineInterface
     /**
      * {@inheritDoc}
      */
-    public function pipe(MiddlewareInterface $middleware, string $pathPrefix = null): void
+    public function pipe(MiddlewareInterface $middleware, ?string $pathPrefix = null): void
     {
         $this->pipeline[] = (!$pathPrefix || $pathPrefix === '/') ? $middleware : $this->path($pathPrefix, $middleware);
     }
