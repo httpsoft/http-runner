@@ -51,5 +51,5 @@ interface MiddlewarePipelineInterface extends MiddlewareInterface, RequestHandle
      * @param MiddlewareInterface $middleware
      * @param string|null $pathPrefix path prefix from the root to which the middleware is attached.
      */
-    public function pipe(MiddlewareInterface $middleware, string $pathPrefix = null): void;
+    public function pipe(MiddlewareInterface $middleware, ?string $pathPrefix = null): void;
 }

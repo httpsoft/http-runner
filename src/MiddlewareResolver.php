@@ -26,7 +26,7 @@ final class MiddlewareResolver implements MiddlewareResolverInterface
     /**
      * @param ContainerInterface|null $container
      */
-    public function __construct(ContainerInterface $container = null)
+    public function __construct(?ContainerInterface $container = null)
     {
         $this->container = $container;
     }

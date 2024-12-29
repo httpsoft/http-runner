@@ -33,7 +33,7 @@ final class ServerRequestRunner
      * @param MiddlewarePipelineInterface|null $pipeline
      * @param EmitterInterface|null $emitter
      */
-    public function __construct(MiddlewarePipelineInterface $pipeline = null, EmitterInterface $emitter = null)
+    public function __construct(?MiddlewarePipelineInterface $pipeline = null, ?EmitterInterface $emitter = null)
     {
         $this->pipeline = $pipeline ?? new MiddlewarePipeline();
         $this->emitter = $emitter ?? new SapiEmitter();
@@ -44,7 +44,7 @@ final class ServerRequestRunner
      * @param RequestHandlerInterface|null $defaultHandler
      * @psalm-suppress RedundantCast
      */
-    public function run(ServerRequestInterface $request, RequestHandlerInterface $defaultHandler = null): void
+    public function run(ServerRequestInterface $request, ?RequestHandlerInterface $defaultHandler = null): void
     {
         $response = ($defaultHandler === null)
             ? $this->pipeline->handle($request)
