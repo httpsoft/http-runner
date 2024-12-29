@@ -23,6 +23,7 @@ final class MiddlewarePipeline implements MiddlewarePipelineInterface
 
     /**
      * {@inheritDoc}
+     * @psalm-suppress RiskyTruthyFalsyComparison
      */
     public function pipe(MiddlewareInterface $middleware, ?string $pathPrefix = null): void
     {
